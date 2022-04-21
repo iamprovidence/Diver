@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace Diver.Infrastructure
+namespace Diver.Application
 {
     public class ApplicationModule : Module
     {

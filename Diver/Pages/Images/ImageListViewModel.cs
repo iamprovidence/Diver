@@ -1,19 +1,20 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Diver.Application.Images;
+using Diver.Application.Images.Dtos;
 using Diver.Common;
 using Diver.Utilities;
-using Driver.Application;
-using Driver.Application.Images.Dtos;
 
-namespace Diver.Pages.Main
+namespace Diver.Pages.Images
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class ImageListViewModel : ViewModelBase
     {
         private readonly ImageAppService _imageAppService;
 
         public ObservableCollection<ImageDto> Images { get; } = new();
 
-        public MainWindowViewModel(ImageAppService imageAppService)
+        public ImageListViewModel(ImageAppService imageAppService)
         {
             _imageAppService = imageAppService;
         }
@@ -29,5 +30,10 @@ namespace Diver.Pages.Main
 
             Images.ClearAdd(images);
         }
+
+        public ICommand InspectImageCommand => new RelayCommand<ImageDto>(image =>
+        {
+            System.Console.WriteLine(image);
+        });
     }
 }

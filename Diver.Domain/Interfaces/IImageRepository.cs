@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Diver.Domain;
+using Diver.Domain.Models;
 
-namespace Diver.Infrastructure.Repositories
+namespace Diver.Domain.Interfaces
 {
     public interface IImageRepository
     {

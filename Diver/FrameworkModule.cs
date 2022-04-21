@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using Autofac;
 using Diver.Common;
 
@@ -11,6 +12,18 @@ namespace Diver.Infrastructure
             builder
                 .RegisterAssemblyTypes(ThisAssembly)
                 .Where(t => t.IsSubclassOf(typeof(Window)))
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterAssemblyTypes(ThisAssembly)
+                .Where(t => t.IsSubclassOf(typeof(Page)))
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterAssemblyTypes(ThisAssembly)
+                .Where(t => t.IsSubclassOf(typeof(UserControl)))
                 .AsSelf()
                 .InstancePerLifetimeScope();
 

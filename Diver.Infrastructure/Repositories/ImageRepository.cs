@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Diver.Domain;
+using Diver.Domain.Interfaces;
+using Diver.Domain.Models;
 
 namespace Diver.Infrastructure.Repositories
 {

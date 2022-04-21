@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Diver.Domain.Interfaces;
 using Diver.Domain.Models;
 
 namespace Diver.Infrastructure.Repositories

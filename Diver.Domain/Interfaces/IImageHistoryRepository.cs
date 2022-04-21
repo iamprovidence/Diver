@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Diver.Domain.Models;
 
-namespace Diver.Infrastructure.Repositories
+namespace Diver.Domain.Interfaces
 {
     public interface IImageHistoryRepository
     {

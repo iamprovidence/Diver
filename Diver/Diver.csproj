@@ -1,15 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Resources\Icons\icon.ico</ApplicationIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Diver.Infrastructure\Diver.Infrastructure.csproj" />
-    <ProjectReference Include="..\Driver.Application\Driver.Application.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Diver.Application\Diver.Application.csproj" />
+		<ProjectReference Include="..\Diver.Infrastructure\Diver.Infrastructure.csproj" />
+		<ProjectReference Include="..\Driver.Application\Diver.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Resources\*\*.*" />
+		<Resource Include="Resources\*\*.*" />
+	</ItemGroup>
 
 </Project>

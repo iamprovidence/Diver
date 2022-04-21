@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Diver.Infrastructure.Repositories;
-using Driver.Application.Images.Dtos;
+using Diver.Application.Images.Dtos;
+using Diver.Domain.Interfaces;
 
-namespace Driver.Application
+namespace Diver.Application.Images
 {
     public class ImageAppService
     {

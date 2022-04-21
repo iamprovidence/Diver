@@ -1,4 +1,4 @@
-﻿namespace Driver.Application.Images.Dtos
+﻿namespace Diver.Application.Images.Dtos
 {
     public class ImageDto
     {

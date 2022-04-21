@@ -1,4 +1,4 @@
-﻿namespace Diver.Domain
+﻿namespace Diver.Domain.Models
 {
     public class Image
     {

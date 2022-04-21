@@ -1,14 +1,15 @@
 ﻿using System.Windows;
 using Autofac;
+using Diver.Application;
 using Diver.Infrastructure;
-using Diver.Pages.Main;
+using Diver.Pages;
 
 namespace Diver
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
         protected override void OnStartup(StartupEventArgs e)
         {
