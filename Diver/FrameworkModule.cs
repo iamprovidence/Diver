@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using Autofac;
 using Diver.Common;
+using Diver.Pages;
 
 namespace Diver.Infrastructure
 {
@@ -10,8 +11,20 @@ namespace Diver.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder
+                .RegisterType<NavigationManager>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<MainWindow>()
+                .AsSelf()
+                .As<IContentPresenter>()
+                .SingleInstance();
+
+            builder
                 .RegisterAssemblyTypes(ThisAssembly)
                 .Where(t => t.IsSubclassOf(typeof(Window)))
+                .Except<MainWindow>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 

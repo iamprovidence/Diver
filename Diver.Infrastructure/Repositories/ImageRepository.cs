@@ -10,8 +10,20 @@ namespace Diver.Infrastructure.Repositories
 {
     public class ImageRepository : IImageRepository
     {
+        public async Task<int> GetCount()
+        {
+            return 1;
+        }
+
         public async Task<IReadOnlyCollection<Image>> GetAll()
         {
+            return Enumerable.Range(0, 100).Select(i => new Image
+            {
+                ImageId = $"imageId{i}",
+                Repository = $"repository{i}",
+                Tag = $"tag{i}",
+            }).ToList();
+
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo

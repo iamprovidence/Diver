@@ -17,11 +17,6 @@
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
 
-    <!--RESOURCES-->
-    <Window.Resources>
-        <FontFamily x:Key="Comfortaa" >/Resources/Fonts/#Comfortaa</FontFamily>
-    </Window.Resources>
-
     <!--MARKUP-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -104,7 +99,7 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Resources>
-            
+
             <Button Grid.Column="1"
                     Click="Minimize_Click"
                     Style="{StaticResource TopButton}">
@@ -133,7 +128,7 @@
 
         <!--LEFT PANEL-->
         <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="8"
-                   Background="#E9EBEE" >
+             Background="#E9EBEE" >
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -141,12 +136,19 @@
             </Grid.RowDefinitions>
 
             <ListBox Grid.Row="0"
-                 x:Name="MenuList"
+                 SelectedIndex="0"
                  Background="#E9EBEE"
                  BorderThickness="0" >
 
+                <ListBox.Items>
+                    <local:MenuItem Icon="/Resources/Icons/Home.png" Text="Home"/>
+                    <local:MenuItem Icon="/Resources/Icons/Cloud.png" Text="Images"/>
+                </ListBox.Items>
+                
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
+                        <EventSetter Event="Selected"  Handler="Menu_Selected"/>
+                        
                         <Setter Property="Cursor" Value="Hand"/>
                         <Setter Property="BorderThickness" Value="0"/>
 
@@ -158,15 +160,15 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
 
-                <ListBox.ItemTemplate >
+                <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal"
                             Height="40"
                             Margin="10 0 0 0">
                             <Image  
-                               Source="{Binding Path=Icon}" 
-                               Width="20"
-                               Height="20"/>
+                                Source="{Binding Path=Icon}" 
+                                Width="20"
+                                Height="20"/>
                             <Label 
                                 Margin="10 0 0 0"
                                 Content="{Binding Path=Text}"

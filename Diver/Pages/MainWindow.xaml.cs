@@ -1,50 +1,29 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using Diver.Application.Images;
-using Diver.Infrastructure.Repositories;
+using Diver.Common;
 using Diver.Pages.Images;
 
 namespace Diver.Pages
 {
     public class MenuItem
     {
-        public string Icon { get; set; }
-        public string Text { get; set; }
+        public string Icon { get; init; }
+        public string Text { get; init; }
     }
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IContentPresenter
     {
+        private readonly NavigationManager _navigationManager;
 
-        public MainWindow()
+        public MainWindow(NavigationManager navigationManager)
         {
             InitializeComponent();
 
-            MenuList.ItemsSource = new[]
-            {
-                new MenuItem
-                {
-                    Icon = "/Resources/Icons/Home.png",
-                    Text = "Home",
-                },
-                new MenuItem
-                {
-                    Icon = "/Resources/Icons/Cloud.png",
-                    Text = "Images",
-                },
-            };
-        }
-
-        private void Navigate(object sender, MouseButtonEventArgs e)
-        {
-            var control = new ImageList()
-            {
-                DataContext = new ImageListViewModel(new ImageAppService(new ImageRepository())),
-            };
-
-            ContentControl = control;
+            _navigationManager = navigationManager;
         }
 
         private void MovingWindow(object sender, MouseButtonEventArgs e)
@@ -76,5 +55,26 @@ namespace Diver.Pages
         {
             Close();
         }
+
+        private void Menu_Selected(object sender, RoutedEventArgs e)
+        {
+            var menuItem = (sender as ListBoxItem).Content as MenuItem;
+
+            if (menuItem.Text == "Home")
+            {
+                _navigationManager.Navigate<Home.Home>();
+            }
+            else if (menuItem.Text == "Images")
+            {
+                _navigationManager.Navigate<ImageList>();
+            }
+        }
+
+        #region IContentPresenter
+        public void SetContent(UserControl userControl)
+        {
+            ContentControl.Content = userControl;
+        }
+        #endregion
     }
 }
