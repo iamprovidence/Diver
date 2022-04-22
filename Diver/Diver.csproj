@@ -10,7 +10,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Diver.Application\Diver.Application.csproj" />
 		<ProjectReference Include="..\Diver.Infrastructure\Diver.Infrastructure.csproj" />
-		<ProjectReference Include="..\Driver.Application\Diver.Application.csproj" />
+		<ProjectReference Include="..\Diver.Application\Diver.Application.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
