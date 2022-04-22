@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Diver.Common
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         protected readonly NavigationManager _navigationManager;
 
