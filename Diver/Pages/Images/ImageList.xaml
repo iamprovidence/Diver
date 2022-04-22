@@ -5,10 +5,164 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Diver.Pages.Images"
              mc:Ignorable="d" 
+             BorderThickness="0"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Red">
-        <ListBox Grid.Row="1" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="4"
-                 ItemsSource="{Binding Images}">
+
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </d:DesignerProperties.DesignStyle>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--HEADER-->
+        <Grid Grid.Row="0">
+            <Rectangle Fill="#32545F"/>
+
+            <Label 
+                Foreground="#FFFFFF"
+                Padding="30 0 0 0"
+                Content="Images on disk"
+                FontSize="18"
+                FontWeight="SemiBold"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center">
+            </Label>
+
+            <Label 
+                Foreground="#CCCCCC"
+                Padding="0 0 20 0"
+                Content="0 images"
+                FontSize="16"
+                FontWeight="SemiBold"
+                HorizontalContentAlignment="Right"
+                VerticalContentAlignment="Center">
+            </Label>
+        </Grid>
+
+        <Label Grid.Row="1"
+                Padding="30 0 0 0"
+                FontSize="14"
+                FontWeight="Bold"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center">
+            <TextBlock >
+                LOCAL
+                <TextBlock.TextDecorations>
+                    <TextDecoration Location="Underline" PenThicknessUnit="Pixel" PenOffset="3">
+                        <TextDecoration.Pen>
+                            <Pen Brush="Black" Thickness="2"/>
+                        </TextDecoration.Pen>
+                    </TextDecoration>
+                </TextBlock.TextDecorations>
+            </TextBlock>
+        </Label>
+
+        <!--TABLE-->
+        <DataGrid Grid.Row="2"
+            ItemsSource="{Binding Images}"
+            Background="Transparent"
+            HorizontalGridLinesBrush="LightGray"
+            VerticalGridLinesBrush="Transparent"
+            RowBackground="Transparent"
+            AlternatingRowBackground="Transparent"
+            BorderThickness="0"
+            RowHeaderWidth="0"
+            Padding="30 10"
+            CanUserResizeRows="False"
+            CanUserResizeColumns="False"
+            IsReadOnly="True"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            CanUserSortColumns="False"
+            CanUserReorderColumns="False">
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Padding" Value="15 10"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="#2E2E2E"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FFFFFF" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Border 
+                                    Padding="{TemplateBinding Padding}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" 
+                                    SnapsToDevicePixels="True">
+                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Column.DisplayIndex}" Value="0">
+                            <Setter Property="Block.FontWeight" Value="SemiBold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="NAME" Binding="{Binding Path=Repository}" Width="300" />
+                <DataGridTextColumn Header="TAG" Binding="{Binding Path=Tag}" Width="100" />
+                <DataGridTextColumn Header="IMAGE ID" Binding="{Binding Path=ImageId}" Width="*" />
+                <DataGridTextColumn Header="CREATED" Binding="{Binding Path=ImageId}" Width="*" />
+                <DataGridTextColumn Header="SIZE" Binding="{Binding Path=ImageId}" Width="*" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="INSPECT" 
+                                    Background="#3384DB"
+                                    Foreground="#FFFFFF"
+                                    FontSize="10"
+                                    BorderThickness="0"
+                                    >
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+        </DataGrid>
+        
+        <!--
+        <ListBox >
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -28,5 +182,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        -->
+        
     </Grid>
 </UserControl>

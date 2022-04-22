@@ -7,7 +7,7 @@ namespace Diver.Common
         where T : class
     {
         private Action<T> _execute;
-        private Func<object, bool> _canExecute;
+        private Func<T, bool> _canExecute;
 
         public event EventHandler CanExecuteChanged
         {
@@ -21,7 +21,7 @@ namespace Diver.Common
             }
         }
 
-        public RelayCommand(Action<T> execute, Func<object, bool> canExecute = null)
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;
@@ -29,12 +29,18 @@ namespace Diver.Common
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute?.Invoke(parameter) ?? true;
+            return _canExecute?.Invoke(parameter as T) ?? true;
         }
 
         public void Execute(object parameter)
         {
             _execute?.Invoke(parameter as T);
         }
+    }
+
+    public class RelayCommand : RelayCommand<object>
+    {
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
+            : base(execute, canExecute) { }
     }
 }
