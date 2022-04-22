@@ -1,0 +1,129 @@
+﻿<UserControl x:Class="Diver.Pages.Images.ImageDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Diver.Pages.Images"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </d:DesignerProperties.DesignStyle>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TOP-->
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100    "/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="0"
+                Cursor="Hand"
+                Margin="20 0 0 0"
+                BorderThickness="0"
+                Background="Transparent">
+                <Image Source="/Resources/Icons/LeftArrow.png"/>
+            </Button>
+
+            <TextBlock Grid.Column="1"
+                FontSize="18"
+                TextTrimming="CharacterEllipsis"
+                FontWeight="SemiBold"
+                Margin="20 0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left">
+                image name
+            </TextBlock>
+
+            <StackPanel Grid.Column="2">
+                <TextBlock 
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Margin="0 15 0 0"
+                    Padding="0 5 0 0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                    IMAGE ID
+                </TextBlock>
+
+                <TextBlock 
+                    FontSize="12"
+                    Foreground="Gray"
+                    Padding="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                    123131
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Grid.Column="3">
+                <TextBlock 
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Margin="0 15 0 0"
+                    Padding="0 5 0 0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                    CREATED
+                </TextBlock>
+
+                <TextBlock 
+                    FontSize="12"
+                    Foreground="Gray"
+                    Padding="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                    5 days ago
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Grid.Column="4">
+                <TextBlock 
+                    FontSize="14"
+                    FontWeight="SemiBold"                    
+                    Margin="0 15 0 0"
+                    Padding="0 5 0 0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                    SIZE
+                </TextBlock>
+
+                <TextBlock 
+                    FontSize="12"
+                    Foreground="Gray"
+                    Padding="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                    5.57 MB
+                </TextBlock>
+            </StackPanel>
+
+        </Grid>
+
+        <!--MAIN-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--HISTORY-->
+            
+            
+            <!--FILES-->
+        </Grid>
+    </Grid>
+</UserControl>

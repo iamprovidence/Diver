@@ -14,7 +14,10 @@ namespace Diver.Pages.Images
 
         public ObservableCollection<ImageDto> Images { get; } = new();
 
-        public ImageListViewModel(ImageAppService imageAppService)
+        public ImageListViewModel(
+            NavigationManager navigationManager,
+            ImageAppService imageAppService)
+            : base(navigationManager)
         {
             _imageAppService = imageAppService;
         }
@@ -33,7 +36,7 @@ namespace Diver.Pages.Images
 
         public ICommand InspectImageCommand => new RelayCommand<ImageDto>(image =>
         {
-            System.Console.WriteLine(image);
+            _navigationManager.Navigate<ImageDetails>();
         });
     }
 }

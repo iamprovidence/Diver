@@ -13,7 +13,7 @@ namespace Diver.Infrastructure
             builder
                 .RegisterType<NavigationManager>()
                 .AsSelf()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder
                 .RegisterType<MainWindow>()

@@ -67,6 +67,7 @@
         <!--TABLE-->
         <DataGrid Grid.Row="2"
             ItemsSource="{Binding Images}"
+            AutoGenerateColumns="False"
             Background="Transparent"
             HorizontalGridLinesBrush="LightGray"
             VerticalGridLinesBrush="Transparent"
@@ -97,7 +98,7 @@
                     <Setter Property="FontSize" Value="14"/>
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Foreground" Value="#2E2E2E"/>
-                    <Setter Property="IsHitTestVisible" Value="False"/>
+                    <!--<Setter Property="IsHitTestVisible" Value="False"/>-->
 
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -147,7 +148,10 @@
                                     Foreground="#FFFFFF"
                                     FontSize="10"
                                     BorderThickness="0"
-                                    >
+                                    Command="{Binding 
+                                           RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
+                                           Path=DataContext.InspectImageCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="3"/>
@@ -160,29 +164,6 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        
-        <!--
-        <ListBox >
-
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="5">
-                        <Label>ImageId</Label>
-                        <TextBlock FontSize="9" Text="{Binding Path=ImageId}" />
-                        <Label>Repository</Label>
-                        <TextBlock Text="{Binding Path=Repository}" />
-                        <Label>Tag</Label>
-                        <TextBlock Text="{Binding Path=Tag}" />
-                        <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},
-                                           Path=DataContext.InspectImageCommand}"
-                                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}">
-                            Inspect
-                        </Button>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        -->
         
     </Grid>
 </UserControl>

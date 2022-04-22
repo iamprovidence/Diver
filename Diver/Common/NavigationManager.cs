@@ -6,28 +6,31 @@ namespace Diver.Common
 {
     public class NavigationManager
     {
-        private readonly ILifetimeScope _lifetimeScope;
+        private readonly ILifetimeScope _container;
 
-        public NavigationManager(ILifetimeScope lifetimeScope)
+        public NavigationManager(ILifetimeScope container)
         {
-            _lifetimeScope = lifetimeScope;
+            _container = container;
         }
 
         public void Navigate<TControl>()
             where TControl : UserControl
         {
-            var control = _lifetimeScope.Resolve<TControl>();
-            var viewModel = TryResolveViewModel<TControl>();
-
-            if (viewModel is not null)
+            using (var scope = _container.BeginLifetimeScope())
             {
-                control.DataContext = viewModel;
-            }
+                var control = _container.Resolve<TControl>();
+                var viewModel = TryResolveViewModel<TControl>(scope);
 
-            _lifetimeScope.Resolve<IContentPresenter>().SetContent(control);
+                if (viewModel is not null)
+                {
+                    control.DataContext = viewModel;
+                }
+
+                _container.Resolve<IContentPresenter>().SetContent(control);
+            }
         }
 
-        private ViewModelBase TryResolveViewModel<TControl>()
+        private ViewModelBase TryResolveViewModel<TControl>(ILifetimeScope scope)
             where TControl : UserControl
         {
             var typeName = typeof(TControl).FullName;
@@ -39,7 +42,7 @@ namespace Diver.Common
                 return null;
             }
 
-            return _lifetimeScope.Resolve(viewModelType) as ViewModelBase;
+            return scope.Resolve(viewModelType) as ViewModelBase;
         }
     }
 }
