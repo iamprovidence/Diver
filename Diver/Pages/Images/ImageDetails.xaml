@@ -51,7 +51,7 @@
                 Margin="20 0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left">
-                image name
+                Docker Test 
             </TextBlock>
 
             <StackPanel Grid.Column="2">
@@ -71,7 +71,7 @@
                     Padding="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left">
-                    123131
+                    190532d393c5
                 </TextBlock>
             </StackPanel>
 
@@ -146,8 +146,8 @@
                     BorderThickness="0">
 
                     <ListBox.Items>
-                        <local:ImageHistoryDto Command="Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4444444aa" Size="0 Bytes" Id="0"/>
-                        <local:ImageHistoryDto Command="B" Size="5.57 MB" Id="1"/>
+                        <local:ImageHistoryDto Command="FROM MyBaseImage" Size="5.57 MB" Id="0"/>
+                        <local:ImageHistoryDto Command="CMD echo 'Hello World'" Size="0 Bytes" Id="1"/>
                     </ListBox.Items>
 
                     <ListBox.ItemContainerStyle>
@@ -273,9 +273,9 @@
                              BorderThickness="0">
 
                         <ListBox.Items>
-                            <local:FileDto Name="folder1 folder folder" IsDirectory="True"/>
-                            <local:FileDto Name="folder1 folder folder" IsDirectory="True"/>
-                            <local:FileDto Name="folder2 folder folder" IsDirectory="False"/>
+                            <local:FileDto Name="My Docker image folder" IsDirectory="True"/>
+                            <local:FileDto Name="app" IsDirectory="True"/>
+                            <local:FileDto Name="scr" IsDirectory="False"/>
                         </ListBox.Items>
 
                         <ListBox.ItemsPanel>
@@ -345,28 +345,24 @@
                     ScrollViewer.VerticalScrollBarVisibility="Visible">
 
                     <ListBox.Items>
-                        <local:FileDto Name="folder" IsDirectory="True"/>
-                        <local:FileDto Name="folder1" IsDirectory="True"/>
-                        <local:FileDto Name="folder2" IsDirectory="True"/>
-                        <local:FileDto Name="file.js"/>
-                        <local:FileDto Name="file.mp3"/>
-                        <local:FileDto Name="file.mp4"/>
-                        <local:FileDto Name="file.pdf"/>
-                        <local:FileDto Name="file.txt"/>
-                        <local:FileDto Name="file.avi"/>
-                        <local:FileDto Name="file.png"/>
-                        <local:FileDto Name="file.png"/>
-                        <local:FileDto Name="file.avi"/>
-                        <local:FileDto Name="file.avi"/>
-                        <local:FileDto Name="file.avi"/>
-                        <local:FileDto Name="file.log"/>
-                        <local:FileDto Name="file.log"/>
-                        <local:FileDto Name="file.log"/>
-                        <local:FileDto Name="file.log"/>
-                        <local:FileDto Name="file.log"/>
-                        <local:FileDto Name="file.log"/>
-                        <local:FileDto Name="file.log"/>
-                        <local:FileDto Name="file.log"/>
+                        <local:FileDto Name="bin" IsDirectory="True"/>
+                        <local:FileDto Name="obj" IsDirectory="True"/>
+                        <local:FileDto Name="files" IsDirectory="True"/>
+                        <local:FileDto Name="script.js"/>
+                        <local:FileDto Name="music.mp3"/>
+                        <local:FileDto Name="vider.mp4"/>
+                        <local:FileDto Name="doc.pdf"/>
+                        <local:FileDto Name="text.txt"/>
+                        <local:FileDto Name="image1.png"/>
+                        <local:FileDto Name="image1.png"/>
+                        <local:FileDto Name="log-20.02.22.log"/>
+                        <local:FileDto Name="log-21.02.22.log"/>
+                        <local:FileDto Name="log-22.02.22.log"/>
+                        <local:FileDto Name="log-23.02.22.log"/>
+                        <local:FileDto Name="log-24.02.22.log"/>
+                        <local:FileDto Name="log-25.02.22.log"/>
+                        <local:FileDto Name="log-26.02.22.log"/>
+                        <local:FileDto Name="log-27.02.22.log"/>
                     </ListBox.Items>
 
                     <ListBox.Style>
