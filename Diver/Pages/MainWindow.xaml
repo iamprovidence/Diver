@@ -9,6 +9,8 @@
         Title="Diver" 
         Height="700" 
         Width="1250" 
+        MinHeight="700"
+        MinWidth="1250"
         WindowStartupLocation="CenterScreen"
         BorderThickness="0">
 
@@ -144,7 +146,7 @@
                     <local:MenuItem Icon="/Resources/Icons/Home.png" Text="Home"/>
                     <local:MenuItem Icon="/Resources/Icons/Cloud.png" Text="Images"/>
                 </ListBox.Items>
-                
+
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <EventSetter Event="Selected"  Handler="Menu_Selected"/>
