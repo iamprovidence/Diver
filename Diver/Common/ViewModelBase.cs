@@ -23,4 +23,13 @@ namespace Diver.Common
             return;
         }
     }
+
+    public abstract class ViewModelBase<TParams> : ViewModelBase
+        where TParams : IViewModelParams
+    {
+        protected ViewModelBase(NavigationManager navigationManager, TParams @params)
+            : base(navigationManager)
+        {
+        }
+    }
 }

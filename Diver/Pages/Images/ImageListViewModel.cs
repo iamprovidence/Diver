@@ -36,7 +36,10 @@ namespace Diver.Pages.Images
 
         public ICommand InspectImageCommand => new RelayCommand<ImageDto>(image =>
         {
-            _navigationManager.Navigate<ImageDetails>();
+            _navigationManager.Navigate<ImageDetails>(new ImageDetailsViewModelParams
+            {
+                ImageId = image.ImageId,
+            });
         });
     }
 }

@@ -34,7 +34,8 @@
                 Cursor="Hand"
                 Margin="20 0 0 0"
                 BorderThickness="0"
-                Background="Transparent">
+                Background="Transparent"
+                Command="{Binding GoBackCommand}">
                 <Image Source="/Resources/Icons/LeftArrow.png"/>
             </Button>
 
