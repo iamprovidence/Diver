@@ -144,7 +144,7 @@
                     Padding="20"
                     Margin="0 10 0 0"
                     BorderThickness="0">
-                    
+
                     <ListBox.Items>
                         <local:ImageHistoryDto Command="Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4444444aa" Size="0 Bytes" Id="0"/>
                         <local:ImageHistoryDto Command="B" Size="5.57 MB" Id="1"/>
@@ -153,7 +153,7 @@
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            
+
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
@@ -224,7 +224,7 @@
                     </ListBox.ItemContainerStyle>
 
                 </ListBox>
-                
+
             </StackPanel>
 
             <!--FILES-->
@@ -232,10 +232,11 @@
             <Grid Grid.Column="1">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="20"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
+
                 <TextBlock Grid.Row="0"
                     FontSize="12"
                     Foreground="Gray"
@@ -246,10 +247,100 @@
                     FILES
                 </TextBlock>
 
-                <ListBox Grid.Row="1"
+                <Grid Grid.Row="1"
+                      Margin="10 0 10 0"
+                      Background="White">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Image Grid.Column="0"
+                           Margin="10 0 0 0"
+                           Width="20"
+                           Height="20"
+                           Source="/Resources/FileIcons/Directory.png" />
+
+                    <Image Grid.Column="1"
+                           Margin="10 0 5 0"
+                           Width="20"
+                           Height="20"
+                           Source="/Resources/Icons/RightArrow.png" />
+
+                    <ListBox Grid.Column="2"
+                             BorderThickness="0">
+
+                        <ListBox.Items>
+                            <local:FileDto Name="folder1 folder folder" IsDirectory="True"/>
+                            <local:FileDto Name="folder1 folder folder" IsDirectory="True"/>
+                            <local:FileDto Name="folder2 folder folder" IsDirectory="False"/>
+                        </ListBox.Items>
+
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+
+                                            <StackPanel Orientation="Horizontal" 
+                                                Name="_FileContainer"
+                                                Height="30"
+                                                Cursor="Hand">
+
+                                                <TextBlock 
+                                                    Text="{Binding Path=Name}"
+                                                    FontSize="16"
+                                                    Margin="5 0"
+                                                    MaxWidth="100"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center">
+                                                </TextBlock>
+
+                                                <Image Grid.Column="1"
+                                                   Name="_ArrowIcon"
+                                                   Margin="5 0"
+                                                   Width="20"
+                                                   Height="20"
+                                                   Source="/Resources/Icons/RightArrow.png" />
+                                            </StackPanel>
+
+                                            <ControlTemplate.Triggers>
+
+                                                <DataTrigger Binding="{Binding Path=IsDirectory}" Value="False">
+                                                    <Setter TargetName="_ArrowIcon" Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="_FileContainer" Property="Background" Value="#E5F3FF"/>
+                                                </Trigger>
+
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="_FileContainer" Property="Background" Value="#CCE8FF"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </Grid>
+
+                <ListBox Grid.Row="2"
                     Background="White"
                     Padding="0 10"
-                    Margin="10 30 10 20"
+                    Margin="10 0 10 20"
                     BorderThickness="0"
                     ScrollViewer.VerticalScrollBarVisibility="Visible">
 
@@ -291,7 +382,7 @@
                                             Name="_FileContainer"
                                             Height="30"
                                             Cursor="Hand">
-                                            
+
                                             <Image 
                                                 Margin="10 0"
                                                 Width="20"
@@ -301,7 +392,7 @@
                                                     Path=DataContext,
                                                     Converter={StaticResource FileToImageConverter}}" />
 
-                                            <Label Grid.Column="2"
+                                            <Label
                                                 Padding="0 0 20 0"
                                                 Content="{Binding Path=Name}"
                                                 FontSize="16"
@@ -310,7 +401,7 @@
                                                 HorizontalContentAlignment="Left"
                                                 VerticalContentAlignment="Center">
                                             </Label>
-                                            
+
                                         </StackPanel>
 
                                         <ControlTemplate.Triggers>
@@ -318,13 +409,13 @@
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter TargetName="_FileContainer" Property="Background" Value="#E5F3FF"/>
                                             </Trigger>
-                                            
+
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter TargetName="_FileContainer" Property="Background" Value="#CCE8FF"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
-                                    
+
                                 </Setter.Value>
                             </Setter>
                         </Style>
