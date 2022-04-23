@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Diver.Pages.Images"
+             xmlns:cv="clr-namespace:Diver.Pages.Images.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="1000">
 
@@ -12,6 +13,10 @@
             <Setter Property="Background" Value="White"/>
         </Style>
     </d:DesignerProperties.DesignStyle>
+
+    <UserControl.Resources>
+        <cv:FileToImageConverter x:Key="FileToImageConverter"/>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -224,19 +229,109 @@
 
             <!--FILES-->
 
-            <StackPanel Grid.Column="1">
+            <Grid Grid.Column="1">
 
-                <TextBlock
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0"
                     FontSize="12"
                     Foreground="Gray"
                     TextTrimming="CharacterEllipsis"
-                    Margin="20 0"
+                    Margin="10 0 0 0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left">
                     FILES
                 </TextBlock>
-                
-            </StackPanel>
+
+                <ListBox Grid.Row="1"
+                    Background="White"
+                    Padding="0 10"
+                    Margin="10 30 10 20"
+                    BorderThickness="0"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+                    <ListBox.Items>
+                        <local:FileDto Name="folder" IsDirectory="True"/>
+                        <local:FileDto Name="folder1" IsDirectory="True"/>
+                        <local:FileDto Name="folder2" IsDirectory="True"/>
+                        <local:FileDto Name="file.js"/>
+                        <local:FileDto Name="file.mp3"/>
+                        <local:FileDto Name="file.mp4"/>
+                        <local:FileDto Name="file.pdf"/>
+                        <local:FileDto Name="file.txt"/>
+                        <local:FileDto Name="file.avi"/>
+                        <local:FileDto Name="file.png"/>
+                        <local:FileDto Name="file.png"/>
+                        <local:FileDto Name="file.avi"/>
+                        <local:FileDto Name="file.avi"/>
+                        <local:FileDto Name="file.avi"/>
+                        <local:FileDto Name="file.log"/>
+                        <local:FileDto Name="file.log"/>
+                        <local:FileDto Name="file.log"/>
+                        <local:FileDto Name="file.log"/>
+                        <local:FileDto Name="file.log"/>
+                        <local:FileDto Name="file.log"/>
+                        <local:FileDto Name="file.log"/>
+                        <local:FileDto Name="file.log"/>
+                    </ListBox.Items>
+
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+
+                                        <StackPanel Orientation="Horizontal" 
+                                            Name="_FileContainer"
+                                            Height="30"
+                                            Cursor="Hand">
+                                            
+                                            <Image 
+                                                Margin="10 0"
+                                                Width="20"
+                                                Height="20"
+                                                Source="{Binding 
+                                                    RelativeSource={RelativeSource Self},
+                                                    Path=DataContext,
+                                                    Converter={StaticResource FileToImageConverter}}" />
+
+                                            <Label Grid.Column="2"
+                                                Padding="0 0 20 0"
+                                                Content="{Binding Path=Name}"
+                                                FontSize="16"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                HorizontalContentAlignment="Left"
+                                                VerticalContentAlignment="Center">
+                                            </Label>
+                                            
+                                        </StackPanel>
+
+                                        <ControlTemplate.Triggers>
+
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="_FileContainer" Property="Background" Value="#E5F3FF"/>
+                                            </Trigger>
+                                            
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="_FileContainer" Property="Background" Value="#CCE8FF"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                    
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                </ListBox>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

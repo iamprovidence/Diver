@@ -13,6 +13,12 @@ namespace Diver.Pages.Images
         public string Id { get; set; }
         public string Size { get; set; }
     }
+
+    class FileDto
+    {
+        public string Name { get; set; }
+        public bool IsDirectory { get; set; } = false;
+    }
     public class ImageDetailsViewModel : ViewModelBase<ImageDetailsViewModelParams>
     {
 
