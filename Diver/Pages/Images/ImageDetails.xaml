@@ -369,6 +369,30 @@
                         <local:FileDto Name="file.log"/>
                     </ListBox.Items>
 
+                    <ListBox.Style>
+                        <Style TargetType="ListBox">
+                            <Style.Triggers>
+                                <Trigger Property="HasItems" Value="False">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+
+                                                <Grid Background="White">
+                                                <TextBlock
+                                                    FontSize="14"
+                                                    Foreground="Gray"
+                                                    Margin="0 20 0 0" 
+                                                    TextAlignment="Center">
+                                                    This folder is empty
+                                                </TextBlock>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Style>
 
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
@@ -378,12 +402,17 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
 
-                                        <StackPanel Orientation="Horizontal" 
+                                        <Grid
                                             Name="_FileContainer"
                                             Height="30"
                                             Cursor="Hand">
 
-                                            <Image 
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Image Grid.Column="0"
                                                 Margin="10 0"
                                                 Width="20"
                                                 Height="20"
@@ -392,7 +421,7 @@
                                                     Path=DataContext,
                                                     Converter={StaticResource FileToImageConverter}}" />
 
-                                            <Label
+                                            <Label Grid.Column="1"
                                                 Padding="0 0 20 0"
                                                 Content="{Binding Path=Name}"
                                                 FontSize="16"
@@ -402,7 +431,7 @@
                                                 VerticalContentAlignment="Center">
                                             </Label>
 
-                                        </StackPanel>
+                                        </Grid>
 
                                         <ControlTemplate.Triggers>
 
