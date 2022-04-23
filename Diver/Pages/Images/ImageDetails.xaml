@@ -233,7 +233,7 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="75"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -247,8 +247,9 @@
                     FILES
                 </TextBlock>
 
+                <!--NAVIGATION-->
                 <Grid Grid.Row="1"
-                      Margin="10 0 10 0"
+                      Margin="10 25 10 0"
                       Background="White">
 
                     <Grid.ColumnDefinitions>
@@ -337,6 +338,7 @@
                     </ListBox>
                 </Grid>
 
+                <!--FILES-->
                 <ListBox Grid.Row="2"
                     Background="White"
                     Padding="0 10"
@@ -350,11 +352,11 @@
                         <local:FileDto Name="files" IsDirectory="True"/>
                         <local:FileDto Name="script.js"/>
                         <local:FileDto Name="music.mp3"/>
-                        <local:FileDto Name="vider.mp4"/>
+                        <local:FileDto Name="video.mp4"/>
                         <local:FileDto Name="doc.pdf"/>
                         <local:FileDto Name="text.txt"/>
                         <local:FileDto Name="image1.png"/>
-                        <local:FileDto Name="image1.png"/>
+                        <local:FileDto Name="image2.png"/>
                         <local:FileDto Name="log-20.02.22.log"/>
                         <local:FileDto Name="log-21.02.22.log"/>
                         <local:FileDto Name="log-22.02.22.log"/>
