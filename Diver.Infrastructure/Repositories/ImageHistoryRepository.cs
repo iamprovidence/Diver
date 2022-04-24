@@ -9,7 +9,7 @@ namespace Diver.Infrastructure.Repositories
 {
     public class ImageHistoryRepository : IImageHistoryRepository
     {
-        public Task<IReadOnlyCollection<ImageHistory>> GetAll(string imageRepository)
+        public Task<IReadOnlyCollection<ImageHistory>> GetHistory(string imageRepository)
         {
             var process = new Process
             {

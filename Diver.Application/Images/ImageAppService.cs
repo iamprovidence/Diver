@@ -22,25 +22,29 @@ namespace Diver.Application.Images
             return images
                 .Select(i => new ImageListItemDto
                 {
-                    ImageId = i.ImageId,
+                    ImageId = i.Id,
                     Repository = i.Repository,
                     Tag = i.Tag,
-                    Created = "5 days ago",
-                    Size = "5 mb",
+                    Created = i.CreatedSince,
+                    Size = i.Size,
                 })
                 .ToList();
         }
 
         public async Task<ImageDto> GetImage(string imageId)
         {
-            return new ImageDto()
-            {
-                ImageId = imageId,
+            var images = await _imageRepository.GetAll();
 
-                Repository = "Docker test image",
-                Created = "5 days ago",
-                Size = "5 mb",
-            };
+            return images
+                .Where(i => i.Id == imageId)
+                .Select(i => new ImageDto
+                {
+                    ImageId = i.Id,
+                    Repository = i.Repository,
+                    Created = i.CreatedSince,
+                    Size = i.Size,
+                })
+                .SingleOrDefault();
         }
     }
 }

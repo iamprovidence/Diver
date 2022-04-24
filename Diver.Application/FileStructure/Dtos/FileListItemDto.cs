@@ -2,7 +2,7 @@
 {
     public class FileListItemDto
     {
-        public string Name { get; set; }
-        public bool IsDirectory { get; set; } = false;
+        public string Name { get; init; }
+        public bool IsDirectory { get; init; }
     }
 }

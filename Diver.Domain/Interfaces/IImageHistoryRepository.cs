@@ -6,6 +6,6 @@ namespace Diver.Domain.Interfaces
 {
     public interface IImageHistoryRepository
     {
-        Task<IReadOnlyCollection<ImageHistory>> GetAll(string imageId);
+        Task<IReadOnlyCollection<ImageHistory>> GetHistory(string imageId);
     }
 }

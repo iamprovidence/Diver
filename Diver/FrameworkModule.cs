@@ -45,7 +45,7 @@ namespace Diver.Infrastructure
                 .Where(t => t.IsSubclassOf(typeof(ViewModelBase)))
                 .AsSelf()
                 .InstancePerLifetimeScope()
-                .OnActivated(s => (s.Instance as ViewModelBase)?.Activated());
+                .OnActivated(s => (s.Instance as ViewModelBase).Activated());
         }
     }
 }

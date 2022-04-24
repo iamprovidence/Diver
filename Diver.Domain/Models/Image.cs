@@ -2,8 +2,11 @@
 {
     public class Image
     {
-        public string ImageId { get; set; }
+        public string Id { get; set; }
         public string Tag { get; set; }
         public string Repository { get; set; }
+        public string CreatedAt { get; set; }
+        public string CreatedSince { get; set; }
+        public string Size { get; set; }
     }
 }

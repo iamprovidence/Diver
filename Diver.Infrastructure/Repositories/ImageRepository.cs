@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Diver.Domain.Interfaces;
 using Diver.Domain.Models;
@@ -10,28 +9,14 @@ namespace Diver.Infrastructure.Repositories
 {
     public class ImageRepository : IImageRepository
     {
-        public async Task<int> GetCount()
-        {
-            return 1;
-        }
-
         public async Task<IReadOnlyCollection<Image>> GetAll()
         {
-            var r = new Random();
-
-            return Enumerable.Range(0, r.Next(1, 100)).Select(i => new Image
-            {
-                ImageId = $"imageId{i}",
-                Repository = $"repository{i}",
-                Tag = $"tag{i}",
-            }).ToList();
-
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = "/c docker images",
+                    Arguments = "/c docker images --format \"{{json . }},\"",
                     CreateNoWindow = true,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
@@ -42,26 +27,14 @@ namespace Diver.Infrastructure.Repositories
 
             var result = await process.StandardOutput.ReadToEndAsync();
 
-            var images = result
-                .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
-                .Skip(1)
-                .Select(imageLine =>
-                {
-                    var imageData = imageLine.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    return new Image
-                    {
-                        Repository = imageData[0],
-                        Tag = imageData[1],
-                        ImageId = imageData[2],
-                    };
-                })
-                .ToList();
-
             await process.WaitForExitAsync();
             process.Close();
 
-            return images;
+            return JsonSerializer.Deserialize<IReadOnlyCollection<Image>>($"[{result}]", new JsonSerializerOptions
+            {
+                AllowTrailingCommas = true,
+                PropertyNameCaseInsensitive = true,
+            });
         }
     }
 }

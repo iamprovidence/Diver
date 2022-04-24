@@ -1,22 +1,33 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Diver.Application.ImageHistoryData.Dtos;
+using Diver.Domain.Interfaces;
 
 namespace Diver.Application.ImageHistoryData
 {
     public class ImageHistoryAppService
     {
+        private readonly IImageHistoryRepository _imageHistoryRepository;
+
+        public ImageHistoryAppService(IImageHistoryRepository imageHistoryRepository)
+        {
+            _imageHistoryRepository = imageHistoryRepository;
+        }
+
         public async Task<IReadOnlyCollection<ImageHistoryListItemDto>> GetHistory(string imageId)
         {
-            return new ImageHistoryListItemDto[]
-            {
-                new ImageHistoryListItemDto
+            var imageHistory = await _imageHistoryRepository.GetHistory(imageId);
+
+            return imageHistory
+                .Select((x, index) => new ImageHistoryListItemDto
                 {
-                    Index= 0,
-                    Command ="FROM MyBaseImage",
-                    Size = "5.57mb",
-                },
-            };
+                    Index = index,
+                    VolumeId = x.Image,
+                    Command = x.CreatedBy,
+                    Size = x.Size,
+                })
+                .ToList();
         }
     }
 }
