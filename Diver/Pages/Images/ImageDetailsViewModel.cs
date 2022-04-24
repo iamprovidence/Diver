@@ -52,7 +52,7 @@ namespace Diver.Pages.Images
 
         public ICommand GoBackCommand => new RelayCommand(sender =>
         {
-            _navigationManager.Navigate<ImageList>();
+            NavigationManager.Navigate<ImageList>();
         });
 
         public ICommand SelectImageHistoryCommand => new RelayCommand<ImageHistoryListItemDto>(async data =>

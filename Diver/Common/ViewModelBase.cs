@@ -2,11 +2,11 @@
 {
     public abstract class ViewModelBase
     {
-        protected readonly NavigationManager _navigationManager;
+        protected NavigationManager NavigationManager { get; }
 
         public ViewModelBase(NavigationManager navigationManager)
         {
-            _navigationManager = navigationManager;
+            NavigationManager = navigationManager;
         }
 
         public virtual void Activated()

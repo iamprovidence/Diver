@@ -37,7 +37,7 @@ namespace Diver.Pages.Images
 
         public ICommand InspectImageCommand => new RelayCommand<ImageListItemDto>(image =>
         {
-            _navigationManager.Navigate<ImageDetails>(new ImageDetailsViewModelParams
+            NavigationManager.Navigate<ImageDetails>(new ImageDetailsViewModelParams
             {
                 ImageId = image.ImageId,
             });
@@ -48,7 +48,7 @@ namespace Diver.Pages.Images
             var openFileDialog = new OpenFileDialog();
             openFileDialog.ShowDialog();
 
-            _navigationManager.Navigate<Home.Home>();
+            NavigationManager.Navigate<Home.Home>();
         });
     }
 }
