@@ -29,12 +29,12 @@ namespace Diver.Common
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute?.Invoke(parameter as T) ?? true;
+            return _canExecute?.Invoke((T)parameter) ?? true;
         }
 
         public void Execute(object parameter)
         {
-            _execute?.Invoke(parameter as T);
+            _execute?.Invoke((T)parameter);
         }
     }
 

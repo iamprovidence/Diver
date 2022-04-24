@@ -37,8 +37,18 @@
 
             <Label 
                 Foreground="#CCCCCC"
+                Padding="0 0 80 0"
+                Content="{Binding Images.Count}"
+                FontSize="16"
+                FontWeight="SemiBold"
+                HorizontalContentAlignment="Right"
+                VerticalContentAlignment="Center">
+            </Label>
+
+            <Label 
+                Foreground="#CCCCCC"
                 Padding="0 0 20 0"
-                Content="0 images"
+                Content="images"
                 FontSize="16"
                 FontWeight="SemiBold"
                 HorizontalContentAlignment="Right"
@@ -142,8 +152,8 @@
                 <DataGridTextColumn Header="NAME" Binding="{Binding Path=Repository}" Width="300" />
                 <DataGridTextColumn Header="TAG" Binding="{Binding Path=Tag}" Width="100" />
                 <DataGridTextColumn Header="IMAGE ID" Binding="{Binding Path=ImageId}" Width="*" />
-                <DataGridTextColumn Header="CREATED" Binding="{Binding Path=ImageId}" Width="*" />
-                <DataGridTextColumn Header="SIZE" Binding="{Binding Path=ImageId}" Width="*" />
+                <DataGridTextColumn Header="CREATED" Binding="{Binding Path=Created}" Width="*" />
+                <DataGridTextColumn Header="SIZE" Binding="{Binding Path=Size}" Width="*" />
                 <DataGridTemplateColumn Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -158,9 +168,11 @@
                                 BorderThickness="0"
                                 Padding="5"
                                 Command="{Binding 
-                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
-                                        Path=DataContext.InspectImageCommand}"
-                                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}">
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
+                                    Path=DataContext.InspectImageCommand}"
+                                CommandParameter="{Binding 
+                                    RelativeSource={RelativeSource Self}, 
+                                    Path=DataContext}">
 
                                 <Button.Style>
                                     <Style TargetType="Button">

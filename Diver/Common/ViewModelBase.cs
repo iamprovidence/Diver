@@ -1,21 +1,12 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace Diver.Common
+﻿namespace Diver.Common
 {
-    public abstract class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase
     {
         protected readonly NavigationManager _navigationManager;
 
         public ViewModelBase(NavigationManager navigationManager)
         {
             _navigationManager = navigationManager;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public virtual void Activated()
@@ -27,9 +18,12 @@ namespace Diver.Common
     public abstract class ViewModelBase<TParams> : ViewModelBase
         where TParams : IViewModelParams
     {
+        public TParams Params { get; }
+
         protected ViewModelBase(NavigationManager navigationManager, TParams @params)
             : base(navigationManager)
         {
+            Params = @params;
         }
     }
 }

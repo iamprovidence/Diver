@@ -2,15 +2,16 @@
 using System.Globalization;
 using System.IO;
 using System.Windows.Data;
+using Diver.Application.FileStructure.Dtos;
 
 namespace Diver.Pages.Images.Converters
 {
-    [ValueConversion(sourceType: typeof(FileDto), targetType: typeof(string))]
+    [ValueConversion(sourceType: typeof(FileListItemDto), targetType: typeof(string))]
     public class FileToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var fileDto = (FileDto)value;
+            var fileDto = (FileListItemDto)value;
 
             if (fileDto.IsDirectory)
             {

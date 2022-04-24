@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:Diver.Pages.Images"
              xmlns:cv="clr-namespace:Diver.Pages.Images.Converters"
              mc:Ignorable="d" 
@@ -30,7 +31,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100    "/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
@@ -63,13 +64,13 @@
             </Button>
 
             <TextBlock Grid.Column="1"
+                Text="{Binding Image.Data.Repository}"
                 FontSize="18"
                 TextTrimming="CharacterEllipsis"
                 FontWeight="SemiBold"
                 Margin="20 0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left">
-                Docker Test 
             </TextBlock>
 
             <StackPanel Grid.Column="2">
@@ -84,12 +85,12 @@
                 </TextBlock>
 
                 <TextBlock 
+                    Text="{Binding Image.Data.ImageId}"
                     FontSize="12"
                     Foreground="Gray"
                     Padding="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left">
-                    190532d393c5
                 </TextBlock>
             </StackPanel>
 
@@ -105,12 +106,12 @@
                 </TextBlock>
 
                 <TextBlock 
+                    Text="{Binding Image.Data.Created}"
                     FontSize="12"
                     Foreground="Gray"
                     Padding="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left">
-                    5 days ago
                 </TextBlock>
             </StackPanel>
 
@@ -126,12 +127,12 @@
                 </TextBlock>
 
                 <TextBlock 
+                    Text="{Binding Image.Data.Size}"
                     FontSize="12"
                     Foreground="Gray"
                     Padding="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left">
-                    5.57 MB
                 </TextBlock>
             </StackPanel>
 
@@ -158,18 +159,26 @@
                 </TextBlock>
 
                 <ListBox
+                    ItemsSource="{Binding ImageHistory}"
                     Background="Transparent"
                     Padding="20"
                     Margin="0 10 0 0"
-                    BorderThickness="0">
-
-                    <ListBox.Items>
-                        <local:ImageHistoryDto Command="FROM MyBaseImage" Size="5.57 MB" Id="0"/>
-                        <local:ImageHistoryDto Command="CMD echo 'Hello World'" Size="0 Bytes" Id="1"/>
-                    </ListBox.Items>
-
+                    BorderThickness="0"
+                    SelectedItem="{Binding SelectedHistoryItem.Data}">
+                    
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction 
+                                Command="{Binding SelectImageHistoryCommand}"  
+                                CommandParameter="{Binding 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}, 
+                                    Path=SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
+
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 
                             <Setter Property="Template">
@@ -191,9 +200,9 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <Label Grid.Column="0"
-                                                    Name="_ImageHistoryId"
+                                                    Name="_ImageHistoryIndex"
                                                     Margin="0"
-                                                    Content="{Binding Path=Id}"
+                                                    Content="{Binding Path=Index}"
                                                     FontSize="14"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
@@ -212,7 +221,6 @@
                                                         MaxWidth="250"
                                                         TextTrimming="WordEllipsis"
                                                         Text="{Binding Command}"/>
-
                                                 </Label>
 
                                                 <Label Grid.Column="2"
@@ -229,9 +237,9 @@
 
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="_ImageHistoryId" Property="Foreground" Value="White"/>
-                                                <Setter TargetName="_ImageHistoryId" Property="Background" Value="#37AAF7"/>
-                                                <Setter TargetName="_ImageHistoryId" Property="FontWeight" Value="SemiBold"/>
+                                                <Setter TargetName="_ImageHistoryIndex" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="_ImageHistoryIndex" Property="Background" Value="#37AAF7"/>
+                                                <Setter TargetName="_ImageHistoryIndex" Property="FontWeight" Value="SemiBold"/>
                                                 <Setter TargetName="_ItemBorder" Property="Background" Value="White"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -289,13 +297,18 @@
                            Source="/Resources/Icons/RightArrow.png" />
 
                     <ListBox Grid.Column="2"
+                             ItemsSource="{Binding Breadcrumbs}"
                              BorderThickness="0">
 
-                        <ListBox.Items>
-                            <local:FileDto Name="My Docker image folder" IsDirectory="True"/>
-                            <local:FileDto Name="app" IsDirectory="True"/>
-                            <local:FileDto Name="scr" IsDirectory="False"/>
-                        </ListBox.Items>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction 
+                                Command="{Binding NavigateDirectoryCommand}"  
+                                CommandParameter="{Binding 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}, 
+                                    Path=SelectedItem}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
 
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -316,9 +329,23 @@
                                                 Cursor="Hand">
 
                                                 <TextBlock 
-                                                    Text="{Binding Path=Name}"
+                                                    Name="_HiddenTitle"
+                                                    Text=". . ."
+                                                    Visibility="Collapsed"
                                                     FontSize="16"
-                                                    Margin="5 0"
+                                                    Padding="5 0"
+                                                    MaxWidth="100"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center">
+                                                </TextBlock>
+                                                
+                                                <TextBlock 
+                                                    Name="_VisibleTitle"
+                                                    Text="{Binding Path=Title}"
+                                                    Visibility="Visible"
+                                                    FontSize="16"
+                                                    Padding="5 0"
                                                     MaxWidth="100"
                                                     TextTrimming="CharacterEllipsis"
                                                     HorizontalAlignment="Center"
@@ -335,7 +362,12 @@
 
                                             <ControlTemplate.Triggers>
 
-                                                <DataTrigger Binding="{Binding Path=IsDirectory}" Value="False">
+                                                <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                                    <Setter TargetName="_HiddenTitle" Property="Visibility" Value="Visible"/>
+                                                    <Setter TargetName="_VisibleTitle" Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding IsLast}" Value="True">
                                                     <Setter TargetName="_ArrowIcon" Property="Visibility" Value="Collapsed"/>
                                                 </DataTrigger>
 
@@ -358,32 +390,22 @@
 
                 <!--FILES-->
                 <ListBox Grid.Row="2"
+                    ItemsSource="{Binding Files}"
                     Background="White"
                     Padding="0 10"
                     Margin="10 0 10 20"
                     BorderThickness="0"
                     ScrollViewer.VerticalScrollBarVisibility="Visible">
 
-                    <ListBox.Items>
-                        <local:FileDto Name="bin" IsDirectory="True"/>
-                        <local:FileDto Name="obj" IsDirectory="True"/>
-                        <local:FileDto Name="files" IsDirectory="True"/>
-                        <local:FileDto Name="script.js"/>
-                        <local:FileDto Name="music.mp3"/>
-                        <local:FileDto Name="video.mp4"/>
-                        <local:FileDto Name="doc.pdf"/>
-                        <local:FileDto Name="text.txt"/>
-                        <local:FileDto Name="image1.png"/>
-                        <local:FileDto Name="image2.png"/>
-                        <local:FileDto Name="log-20.02.22.log"/>
-                        <local:FileDto Name="log-21.02.22.log"/>
-                        <local:FileDto Name="log-22.02.22.log"/>
-                        <local:FileDto Name="log-23.02.22.log"/>
-                        <local:FileDto Name="log-24.02.22.log"/>
-                        <local:FileDto Name="log-25.02.22.log"/>
-                        <local:FileDto Name="log-26.02.22.log"/>
-                        <local:FileDto Name="log-27.02.22.log"/>
-                    </ListBox.Items>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction 
+                                Command="{Binding OpenDirectoryCommand}"  
+                                CommandParameter="{Binding 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}, 
+                                    Path=SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
 
                     <ListBox.Style>
                         <Style TargetType="ListBox">

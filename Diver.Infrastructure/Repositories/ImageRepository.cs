@@ -17,7 +17,9 @@ namespace Diver.Infrastructure.Repositories
 
         public async Task<IReadOnlyCollection<Image>> GetAll()
         {
-            return Enumerable.Range(0, 100).Select(i => new Image
+            var r = new Random();
+
+            return Enumerable.Range(0, r.Next(1, 100)).Select(i => new Image
             {
                 ImageId = $"imageId{i}",
                 Repository = $"repository{i}",

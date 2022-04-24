@@ -15,18 +15,32 @@ namespace Diver.Application.Images
             _imageRepository = imageRepository;
         }
 
-        public async Task<IReadOnlyCollection<ImageDto>> GetImages()
+        public async Task<IReadOnlyCollection<ImageListItemDto>> GetImages()
         {
             var images = await _imageRepository.GetAll();
 
             return images
-                .Select(i => new ImageDto
+                .Select(i => new ImageListItemDto
                 {
                     ImageId = i.ImageId,
                     Repository = i.Repository,
                     Tag = i.Tag,
+                    Created = "5 days ago",
+                    Size = "5 mb",
                 })
                 .ToList();
+        }
+
+        public async Task<ImageDto> GetImage(string imageId)
+        {
+            return new ImageDto()
+            {
+                ImageId = imageId,
+
+                Repository = "Docker test image",
+                Created = "5 days ago",
+                Size = "5 mb",
+            };
         }
     }
 }
