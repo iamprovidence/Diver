@@ -13,7 +13,7 @@
             <Setter Property="Background" Value="White"/>
         </Style>
     </d:DesignerProperties.DesignStyle>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -23,37 +23,90 @@
 
         <!--HEADER-->
         <Grid Grid.Row="0">
-            <Rectangle Fill="#32545F"/>
+            <Grid Background="#32545F">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="85"/>
+                    <ColumnDefinition Width="80"/>
+                </Grid.ColumnDefinitions>
 
-            <Label 
-                Foreground="#FFFFFF"
-                Padding="30 0 0 0"
-                Content="Images on disk"
-                FontSize="18"
-                FontWeight="SemiBold"
-                HorizontalContentAlignment="Left"
-                VerticalContentAlignment="Center">
-            </Label>
+                <Label Grid.Column="0"
+                    Foreground="#FFFFFF"
+                    Margin="25 0 0 0"
+                    Content="Images on disk"
+                    FontSize="18"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center">
+                </Label>
 
-            <Label 
-                Foreground="#CCCCCC"
-                Padding="0 0 80 0"
-                Content="{Binding Images.Count}"
-                FontSize="16"
-                FontWeight="SemiBold"
-                HorizontalContentAlignment="Right"
-                VerticalContentAlignment="Center">
-            </Label>
+                <Label Grid.Column="1"
+                    Foreground="#CCCCCC"
+                    Content="{Binding Images.Count, FallbackValue=0}"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Right"
+                    VerticalContentAlignment="Center">
+                </Label>
 
-            <Label 
-                Foreground="#CCCCCC"
-                Padding="0 0 20 0"
-                Content="images"
-                FontSize="16"
-                FontWeight="SemiBold"
-                HorizontalContentAlignment="Right"
-                VerticalContentAlignment="Center">
-            </Label>
+                <Label Grid.Column="2"
+                    Foreground="#CCCCCC"
+                    Margin="0 0 20 0"
+                    Content="images"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    HorizontalContentAlignment="Right"
+                    VerticalContentAlignment="Center">
+                </Label>
+
+                <Button Grid.Column="3"
+                    Name="_Button"
+                    Width="60"
+                    Height="25"
+                    Content="Build ..." 
+                    Cursor="Hand"
+                    Background="#007BFF"
+                    Foreground="#FFFFFF"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    Padding="5"
+                    Command="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
+                        Path=DataContext.BuildImageCommand}"
+                    CommandParameter="{Binding 
+                        RelativeSource={RelativeSource Self}, 
+                        Path=DataContext}">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Name="_ItemContainer"
+                                            Padding="{TemplateBinding Padding}"
+                                            CornerRadius="3"
+                                            Background="{TemplateBinding Background}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter 
+                                                HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="_ItemContainer" Property="Background" Value="#096BD4" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
         </Grid>
 
         <Label Grid.Row="1"
@@ -91,7 +144,7 @@
             CanUserDeleteRows="False"
             CanUserSortColumns="False"
             CanUserReorderColumns="False">
-            
+
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="Padding" Value="15 10"/>
@@ -100,7 +153,7 @@
                     <Setter Property="FontWeight" Value="SemiBold"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
-            
+
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="FontSize" Value="14"/>
@@ -210,13 +263,13 @@
                                     <Setter TargetName="_Button" Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
                             </DataTemplate.Triggers>
-                        
+
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
 
         </DataGrid>
-        
+
     </Grid>
 </UserControl>

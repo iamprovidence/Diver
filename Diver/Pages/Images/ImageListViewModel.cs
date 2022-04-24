@@ -5,6 +5,7 @@ using Diver.Application.Images;
 using Diver.Application.Images.Dtos;
 using Diver.Common;
 using Diver.Utilities;
+using Microsoft.Win32;
 
 namespace Diver.Pages.Images
 {
@@ -40,6 +41,14 @@ namespace Diver.Pages.Images
             {
                 ImageId = image.ImageId,
             });
+        });
+
+        public ICommand BuildImageCommand => new RelayCommand(data =>
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.ShowDialog();
+
+            _navigationManager.Navigate<Home.Home>();
         });
     }
 }

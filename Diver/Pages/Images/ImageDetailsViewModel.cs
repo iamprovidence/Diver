@@ -55,18 +55,18 @@ namespace Diver.Pages.Images
             _navigationManager.Navigate<ImageList>();
         });
 
-        public ICommand SelectImageHistoryCommand => new RelayCommand<ImageHistoryListItemDto>(async sender =>
+        public ICommand SelectImageHistoryCommand => new RelayCommand<ImageHistoryListItemDto>(async data =>
         {
-            var files = await _fileStructureAppService.GetFileStructure(sender.VolumeId);
+            var files = await _fileStructureAppService.GetFileStructure(data.VolumeId);
             Files.ClearAdd(files);
 
-            var breadcrumbs = await _fileStructureAppService.GetBreadcrumbs(sender.VolumeId);
+            var breadcrumbs = await _fileStructureAppService.GetBreadcrumbs(data.VolumeId);
             Breadcrumbs.ClearAdd(breadcrumbs);
         });
 
-        public ICommand OpenDirectoryCommand => new RelayCommand<FileListItemDto>(async sender =>
+        public ICommand OpenDirectoryCommand => new RelayCommand<FileListItemDto>(async data =>
         {
-            if (!sender.IsDirectory)
+            if (!data.IsDirectory)
             {
                 return;
             }
@@ -83,7 +83,7 @@ namespace Diver.Pages.Images
             Breadcrumbs.ClearAdd(breadcrumbs);
         });
 
-        public ICommand NavigateDirectoryCommand => new RelayCommand<BreadcrumbItemDto>(async sender =>
+        public ICommand NavigateDirectoryCommand => new RelayCommand<BreadcrumbItemDto>(async data =>
         {
             if (SelectedHistoryItem.Data is null)
             {
