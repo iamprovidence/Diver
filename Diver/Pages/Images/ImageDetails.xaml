@@ -42,6 +42,24 @@
                 Background="Transparent"
                 Command="{Binding GoBackCommand}">
                 <Image Source="/Resources/Icons/LeftArrow.png"/>
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
             </Button>
 
             <TextBlock Grid.Column="1"

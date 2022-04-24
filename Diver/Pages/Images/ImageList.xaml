@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Diver.Pages.Images"
              mc:Ignorable="d" 
              BorderThickness="0"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="1000">
 
     <d:DesignerProperties.DesignStyle>
         <Style TargetType="UserControl">
@@ -71,8 +71,6 @@
             Background="Transparent"
             HorizontalGridLinesBrush="LightGray"
             VerticalGridLinesBrush="Transparent"
-            RowBackground="Transparent"
-            AlternatingRowBackground="Transparent"
             BorderThickness="0"
             RowHeaderWidth="0"
             Padding="30 10"
@@ -83,7 +81,7 @@
             CanUserDeleteRows="False"
             CanUserSortColumns="False"
             CanUserReorderColumns="False">
-
+            
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="Padding" Value="15 10"/>
@@ -98,7 +96,6 @@
                     <Setter Property="FontSize" Value="14"/>
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Foreground" Value="#2E2E2E"/>
-                    <!--<Setter Property="IsHitTestVisible" Value="False"/>-->
 
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -118,8 +115,7 @@
                                     Padding="{TemplateBinding Padding}" 
                                     BorderBrush="{TemplateBinding BorderBrush}" 
                                     BorderThickness="{TemplateBinding BorderThickness}" 
-                                    Background="{TemplateBinding Background}" 
-                                    SnapsToDevicePixels="True">
+                                    Background="{TemplateBinding Background}" >
                                     <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </Border>
                             </ControlTemplate>
@@ -130,6 +126,14 @@
                         <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Column.DisplayIndex}" Value="0">
                             <Setter Property="Block.FontWeight" Value="SemiBold"/>
                         </DataTrigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="11"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        </Trigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>
@@ -140,24 +144,61 @@
                 <DataGridTextColumn Header="IMAGE ID" Binding="{Binding Path=ImageId}" Width="*" />
                 <DataGridTextColumn Header="CREATED" Binding="{Binding Path=ImageId}" Width="*" />
                 <DataGridTextColumn Header="SIZE" Binding="{Binding Path=ImageId}" Width="*" />
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="INSPECT" 
-                                    Background="#3384DB"
-                                    Foreground="#FFFFFF"
-                                    FontSize="10"
-                                    BorderThickness="0"
-                                    Command="{Binding 
-                                           RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
-                                           Path=DataContext.InspectImageCommand}"
-                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}">
-                                <Button.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="3"/>
+                            <Button Name="_Button"
+                                Content="INSPECT" 
+                                Visibility="Hidden"
+                                Cursor="Hand"
+                                Background="#007BFF"
+                                Foreground="#FFFFFF"
+                                FontSize="10"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Padding="5"
+                                Command="{Binding 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
+                                        Path=DataContext.InspectImageCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border Name="_ItemContainer"
+                                                        Padding="{TemplateBinding Padding}"
+                                                        CornerRadius="3"
+                                                        Background="{TemplateBinding Background}" 
+                                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <ContentPresenter 
+                                                            HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                                    </Border>
+
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="_ItemContainer" Property="Background" Value="#096BD4" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
                                     </Style>
-                                </Button.Resources>
+                                </Button.Style>
                             </Button>
+
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding 
+                                    Path=IsMouseOver, 
+                                    RelativeSource={RelativeSource AncestorType=DataGridRow}}" 
+                                    Value="True">
+                                    <Setter TargetName="_Button" Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
