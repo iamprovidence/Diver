@@ -1,30 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Diver.Domain.Interfaces;
 using Diver.Domain.Models;
 
 namespace Diver.Infrastructure.Repositories
 {
-    public class ImageHistoryRepository : IImageHistoryRepository
+    public class ImageHistoryRepository : RepositoryBase, IImageHistoryRepository
     {
-        public Task<IReadOnlyCollection<ImageHistory>> GetHistory(string imageRepository)
+        public async Task<IReadOnlyCollection<ImageHistory>> GetHistory(string imageRepository)
         {
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    Arguments = $"/c docker image history {imageRepository}",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                },
-            };
+            var result = await ReadConsoleOutput($"docker image history {imageRepository} --format \"{{{{json . }}}}\"");
 
-            throw new NotImplementedException();
+            var imageHistory = DeserializeJsonl<ImageHistory>(result);
+
+            return imageHistory
+                .Reverse()
+                .ToList();
         }
 
         public Task BuildImageFromDockerfile(string imageRepository)

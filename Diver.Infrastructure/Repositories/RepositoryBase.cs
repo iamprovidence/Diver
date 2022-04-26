@@ -17,7 +17,7 @@ namespace Diver.Infrastructure.Repositories
             }
         });
 
-        protected async Task<string> GetCliResult(string arguments)
+        protected async Task<string> ReadConsoleOutput(string arguments)
         {
             var process = new Process
             {

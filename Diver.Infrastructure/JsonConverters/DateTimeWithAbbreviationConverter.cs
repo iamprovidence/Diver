@@ -91,19 +91,28 @@ namespace Diver.Infrastructure.JsonConverters
             { "YST", "-0900" },
             { "ZP4", "+0400" },
             { "ZP5", "+0500" },
-            { "ZP6", "+0600" }
+            { "ZP6", "+0600" },
         };
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var dataString = (string)reader.Value;
-
-            foreach (var (abbr, offset) in TimeZones)
+            if (reader.ValueType == typeof(string))
             {
-                dataString = dataString.Replace(abbr, string.Empty);
+                var dataString = (string)reader.Value;
+
+                foreach (var (abbr, offset) in TimeZones)
+                {
+                    dataString = dataString.Replace(abbr, string.Empty);
+                }
+
+                return DateTimeOffset.Parse(dataString);
+            }
+            else if (reader.ValueType == typeof(DateTime))
+            {
+                return (DateTimeOffset)(DateTime)reader.Value;
             }
 
-            return DateTimeOffset.Parse(dataString);
+            throw new NotImplementedException();
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

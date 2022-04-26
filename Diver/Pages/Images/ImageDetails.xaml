@@ -17,6 +17,7 @@
 
     <UserControl.Resources>
         <cv:FileToImageConverter x:Key="FileToImageConverter"/>
+        <cv:AddConverter x:Key="AddConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -146,9 +147,14 @@
             </Grid.ColumnDefinitions>
 
             <!--HISTORY-->
-            <StackPanel Grid.Column="0">
+            <Grid Grid.Column="0">
 
-                <TextBlock
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0"
                     FontSize="12"
                     Foreground="Gray"
                     TextTrimming="CharacterEllipsis"
@@ -158,7 +164,7 @@
                     IMAGE HISTORY
                 </TextBlock>
 
-                <ListBox
+                <ListBox Grid.Row="1"
                     ItemsSource="{Binding ImageHistory}"
                     Background="Transparent"
                     Padding="20"
@@ -195,7 +201,7 @@
                                             <Grid Height="45" Margin="0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="30"/>
-                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="100"/>
                                                 </Grid.ColumnDefinitions>
 
@@ -211,6 +217,7 @@
                                                 </Label>
 
                                                 <Label Grid.Column="1"
+                                                    Name="_CommandLabel"
                                                     Padding="20 0 0 0"
                                                     FontSize="14"
                                                     HorizontalAlignment="Stretch"
@@ -218,9 +225,15 @@
                                                     HorizontalContentAlignment="Left"
                                                     VerticalContentAlignment="Center">
                                                     <TextBlock 
-                                                        MaxWidth="250"
-                                                        TextTrimming="WordEllipsis"
+                                                        MaxWidth="{Binding 
+                                                            ElementName=_CommandLabel,
+                                                            Path=ActualWidth,
+                                                            Mode=OneWay, 
+                                                            Converter={StaticResource AddConverter},
+                                                            ConverterParameter=-50}"
+                                                        TextTrimming="CharacterEllipsis"
                                                         Text="{Binding Command}"/>
+                                                    
                                                 </Label>
 
                                                 <Label Grid.Column="2"
@@ -251,7 +264,7 @@
 
                 </ListBox>
 
-            </StackPanel>
+            </Grid>
 
             <!--FILES-->
 

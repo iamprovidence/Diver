@@ -9,7 +9,7 @@ namespace Diver.Infrastructure.Repositories
     {
         public async Task<IReadOnlyCollection<Image>> GetAll()
         {
-            var result = await GetCliResult("docker images --format \"{{json . }},\"");
+            var result = await ReadConsoleOutput("docker images --format \"{{ json . }}\"");
 
             return DeserializeJsonl<Image>(result);
         }

@@ -23,7 +23,7 @@ namespace Diver.Application.ImageHistoryData
                 .Select((x, index) => new ImageHistoryListItemDto
                 {
                     Index = index,
-                    VolumeId = x.Image,
+                    VolumeId = x.Id,
                     Command = x.CreatedBy,
                     Size = x.Size,
                 })
