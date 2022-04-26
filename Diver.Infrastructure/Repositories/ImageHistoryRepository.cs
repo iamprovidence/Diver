@@ -39,22 +39,5 @@ namespace Diver.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task GetImageFiles(string volumeId)
-        {
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    Arguments = $"/c docker run --rm -it {volumeId} sh -c 'ls -l'",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                },
-            };
-
-            throw new NotImplementedException();
-        }
     }
 }

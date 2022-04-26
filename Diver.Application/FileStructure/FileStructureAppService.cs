@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Diver.Application.FileStructure.Dtos;
+using Diver.Domain.Interfaces;
 
 namespace Diver.Application.FileStructure
 {
     public class FileStructureAppService
     {
+        private readonly IFileStructureRepository _fileStructureRepository;
+
+        public FileStructureAppService(IFileStructureRepository fileStructureRepository)
+        {
+            _fileStructureRepository = fileStructureRepository;
+        }
 
         public async Task<IReadOnlyCollection<BreadcrumbItemDto>> GetBreadcrumbs(string imageId)
         {
@@ -51,44 +58,15 @@ namespace Diver.Application.FileStructure
 
         public async Task<IReadOnlyCollection<FileListItemDto>> GetFileStructure(string imageId)
         {
-            var list = new FileListItemDto[]
-            {
-                new FileListItemDto()
-                {
-                    IsDirectory = true,
-                    Name = "bin",
-                },
-                new FileListItemDto()
-                {
-                    IsDirectory = true,
-                    Name = "obj",
-                },
-                new FileListItemDto()
-                {
-                    Name = "script1.js",
-                },
-                new FileListItemDto()
-                {
-                    Name = "script2.js",
-                },
-                new FileListItemDto()
-                {
-                    Name = "script3.js",
-                },
-                new FileListItemDto()
-                {
-                    Name = "script4.js",
-                },
-                new FileListItemDto()
-                {
-                    Name = "script5.js",
-                },
-            };
+            var files = await _fileStructureRepository.GetImageFiles(imageId);
 
-            var random = new Random();
-            var amount = random.Next(1, list.Length + 1);
-
-            return list.Take(amount).ToList();
+            return files
+                .Select(x => new FileListItemDto
+                {
+                    IsDirectory = x.IsDirectory,
+                    Name = x.FileName,
+                })
+                .ToList();
         }
 
     }

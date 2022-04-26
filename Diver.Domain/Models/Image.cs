@@ -4,11 +4,11 @@ namespace Diver.Domain.Models
 {
     public class Image
     {
-        public string Id { get; set; }
-        public string Tag { get; set; }
-        public string Repository { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-        public string CreatedSince { get; set; }
-        public string Size { get; set; }
+        public string Id { get; init; }
+        public string Tag { get; init; }
+        public string Repository { get; init; }
+        public DateTimeOffset CreatedAt { get; init; }
+        public string CreatedSince { get; init; }
+        public string Size { get; init; }
     }
 }

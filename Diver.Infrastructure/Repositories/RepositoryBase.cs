@@ -9,7 +9,7 @@ namespace Diver.Infrastructure.Repositories
 {
     public abstract class RepositoryBase
     {
-        private static readonly JsonSerializer JsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
+        protected static readonly JsonSerializer JsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
         {
             Converters = new[]
             {
