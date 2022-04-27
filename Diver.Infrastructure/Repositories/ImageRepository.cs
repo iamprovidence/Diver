@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Diver.Domain.Interfaces;
 using Diver.Domain.Models;
+using Newtonsoft.Json;
 
 namespace Diver.Infrastructure.Repositories
 {
@@ -11,7 +13,9 @@ namespace Diver.Infrastructure.Repositories
         {
             var result = await ReadConsoleOutput("docker images --format \"{{ json . }}\"");
 
-            return DeserializeJsonl<Image>(result);
+            return result
+                .Select(x => JsonConvert.DeserializeObject<Image>(x, JsonSerializerSettings))
+                .ToList();
         }
     }
 }

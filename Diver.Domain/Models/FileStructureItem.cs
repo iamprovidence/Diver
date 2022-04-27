@@ -24,7 +24,7 @@ namespace Diver.Domain.Models
         public string Owner { get; init; }
         public string Group { get; init; }
         public long FileSizeInBytes { get; init; }
-        public DateTime LastAccess { get; init; }
+        public DateTimeOffset LastAccess { get; init; }
         public string FileName { get; init; }
 
         public bool IsDirectory => Attributes[0] == 'd';

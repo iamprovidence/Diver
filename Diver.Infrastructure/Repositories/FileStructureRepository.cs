@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Diver.Domain.Interfaces;
 using Diver.Domain.Models;
+using Newtonsoft.Json;
 
 namespace Diver.Infrastructure.Repositories
 {
@@ -12,34 +12,38 @@ namespace Diver.Infrastructure.Repositories
     {
         public async Task<IReadOnlyCollection<FileStructureItem>> GetImageFiles(string volumeId)
         {
-            var template = @"
-            {
-                ""Attributes"" = $1,
-                ""LinkCount"" = $2,
-                ""Owner"" = $3,
-                ""Group"" = $4,
-                ""FileSizeInBytes"" = $5,
-                ""LastAccess"" = $6,
-                ""FileName"" = $7
-            }";
+            var containerCommand = "ls -ld * .* --full-time --color=never --group-directories-first";
 
-            var content = await ReadConsoleOutput($"docker run --rm --interactive --tty {volumeId} sh -c \"ls -ld * .*\"");
+            var content = await ReadConsoleOutput($"docker run --rm --interactive --tty {volumeId} sh -c \"{containerCommand}\"");
 
-            var test = content
-                .Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(item => Regex.Replace(item, @"([-drwx]{10})\s+(\d+)\s+(\w+)\s+(\w+)\s+(\d+)\s+(\w+\s+\d+\s+\d+:\d+)\s(.*)", template))
-                .ToArray();
-
-            var list = new FileStructureItem[]
-            {
-                new FileStructureItem()
+            return content
+                .Select(item =>
                 {
-                    Attributes = "dxxxxxxxxx",
-                    FileName = "bin",
-                },
-            };
+                    var attributesRegex = @"[-drwxt]{10}";
+                    var linkCountRegex = @"\d+";
+                    var ownerRegex = @"\w+";
+                    var groupRegex = @"\w+";
+                    var fileSizeRegex = @"\d+";
+                    var lastAccessRegex = @"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \+\d{4}";
+                    var fileNameRegex = @".*";
 
-            return list;
+                    var pattern = $@"({attributesRegex})\s+({linkCountRegex})\s+({ownerRegex})\s+({groupRegex})\s+({fileSizeRegex})\s+({lastAccessRegex})\s({fileNameRegex})";
+
+                    var template = @"
+                    {
+                        ""Attributes"" : ""$1"",
+                        ""LinkCount"" : $2,
+                        ""Owner"" : ""$3"",
+                        ""Group"" : ""$4"",
+                        ""FileSizeInBytes"" : $5,
+                        ""LastAccess"" : ""$6"",
+                        ""FileName"" : ""$7""
+                    }";
+
+                    return Regex.Replace(item, pattern, template);
+                })
+                .Select(x => JsonConvert.DeserializeObject<FileStructureItem>(x, JsonSerializerSettings))
+                .ToList();
         }
     }
 }
