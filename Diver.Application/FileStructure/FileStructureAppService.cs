@@ -8,16 +8,36 @@ namespace Diver.Application.FileStructure
 {
     public class FileStructureAppService
     {
+        private readonly IFileStructureNavigationServiceFactory _factory;
         private readonly IFileStructureRepository _fileStructureRepository;
 
-        public FileStructureAppService(IFileStructureRepository fileStructureRepository)
+        public FileStructureAppService(
+            IFileStructureNavigationServiceFactory factory,
+            IFileStructureRepository fileStructureRepository)
         {
+            _factory = factory;
             _fileStructureRepository = fileStructureRepository;
         }
 
-        public async Task<IReadOnlyCollection<BreadcrumbItemDto>> GetBreadcrumbs(string imageId)
+        public async Task OpenDirectory(string volumeId, string directoryName)
         {
-            var workingDirectory = await _fileStructureRepository.GetWorkingDirectory(imageId);
+            var navigationService = await _factory.GetOrCreate(volumeId);
+
+            navigationService.Open(directoryName);
+        }
+
+        public async Task GoBackToDirectory(string volumeId, string directoryName)
+        {
+            var navigationService = await _factory.GetOrCreate(volumeId);
+
+            navigationService.GoBackTo(directoryName);
+        }
+        public async Task<IReadOnlyCollection<BreadcrumbItemDto>> GetCurrentBreadcrumbs(string volumeId)
+        {
+            var navigationService = await _factory.GetOrCreate(volumeId);
+
+            var workingDirectory = navigationService.GetCurrentWorkingDirectory();
+
             var breadcrumbs = workingDirectory
                 .Select((item, index) => new BreadcrumbItemDto
                 {
@@ -35,9 +55,12 @@ namespace Diver.Application.FileStructure
             return breadcrumbs;
         }
 
-        public async Task<IReadOnlyCollection<FileListItemDto>> GetFileStructure(string imageId)
+        public async Task<IReadOnlyCollection<FileListItemDto>> GetCurrentFileStructure(string volumeId)
         {
-            var files = await _fileStructureRepository.GetImageFiles(imageId);
+            var navigationService = await _factory.GetOrCreate(volumeId);
+            var workingDirectory = navigationService.GetCurrentWorkingDirectory();
+
+            var files = await _fileStructureRepository.GetImageFiles(volumeId, workingDirectory);
 
             return files
                 .Select(x => new FileListItemDto

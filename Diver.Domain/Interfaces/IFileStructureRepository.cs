@@ -6,7 +6,8 @@ namespace Diver.Domain.Interfaces
 {
     public interface IFileStructureRepository
     {
-        Task<IReadOnlyCollection<WorkingDirectory>> GetWorkingDirectory(string volumeId);
-        Task<IReadOnlyCollection<FileStructureItem>> GetImageFiles(string volumeId);
+        public Task<IReadOnlyCollection<FileStructureItem>> GetImageFiles(string volumeId, IEnumerable<WorkingDirectory> workingDirectory);
+
+        internal protected Task<IReadOnlyCollection<WorkingDirectory>> GetWorkingDirectory(string volumeId);
     }
 }

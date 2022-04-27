@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Diver.Application.FileStructure;
 using Diver.Application.FileStructure.Dtos;
@@ -57,11 +58,7 @@ namespace Diver.Pages.Images
 
         public ICommand SelectImageHistoryCommand => new RelayCommand<ImageHistoryListItemDto>(async data =>
         {
-            var files = await _fileStructureAppService.GetFileStructure(data.VolumeId);
-            Files.ClearAdd(files);
-
-            var breadcrumbs = await _fileStructureAppService.GetBreadcrumbs(data.VolumeId);
-            Breadcrumbs.ClearAdd(breadcrumbs);
+            await LoadCurrentFileStructure(SelectedHistoryItem.Data.VolumeId);
         });
 
         public ICommand OpenDirectoryCommand => new RelayCommand<FileListItemDto>(async data =>
@@ -76,11 +73,9 @@ namespace Diver.Pages.Images
                 return;
             }
 
-            var files = await _fileStructureAppService.GetFileStructure(SelectedHistoryItem.Data.VolumeId);
-            Files.ClearAdd(files);
+            await _fileStructureAppService.OpenDirectory(SelectedHistoryItem.Data.VolumeId, data.Name);
 
-            var breadcrumbs = await _fileStructureAppService.GetBreadcrumbs(SelectedHistoryItem.Data.VolumeId);
-            Breadcrumbs.ClearAdd(breadcrumbs);
+            await LoadCurrentFileStructure(SelectedHistoryItem.Data.VolumeId);
         });
 
         public ICommand NavigateDirectoryCommand => new RelayCommand<BreadcrumbItemDto>(async data =>
@@ -90,11 +85,18 @@ namespace Diver.Pages.Images
                 return;
             }
 
-            var files = await _fileStructureAppService.GetFileStructure(SelectedHistoryItem.Data.VolumeId);
+            await _fileStructureAppService.GoBackToDirectory(SelectedHistoryItem.Data.VolumeId, data.Title);
+
+            await LoadCurrentFileStructure(SelectedHistoryItem.Data.VolumeId);
+        });
+
+        private async Task LoadCurrentFileStructure(string volumeId)
+        {
+            var files = await _fileStructureAppService.GetCurrentFileStructure(volumeId);
             Files.ClearAdd(files);
 
-            var breadcrumbs = await _fileStructureAppService.GetBreadcrumbs(SelectedHistoryItem.Data.VolumeId);
+            var breadcrumbs = await _fileStructureAppService.GetCurrentBreadcrumbs(volumeId);
             Breadcrumbs.ClearAdd(breadcrumbs);
-        });
+        }
     }
 }

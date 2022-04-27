@@ -12,9 +12,11 @@ namespace Diver.Infrastructure.Repositories
 {
     public class FileStructureRepository : RepositoryBase, IFileStructureRepository
     {
-        public async Task<IReadOnlyCollection<FileStructureItem>> GetImageFiles(string volumeId)
+        async Task<IReadOnlyCollection<FileStructureItem>> IFileStructureRepository.GetImageFiles(string volumeId, IEnumerable<WorkingDirectory> workingDirectory)
         {
-            var containerCommand = "ls -ld * .* --full-time --color=never --group-directories-first";
+            var currentDirectory = Path.AltDirectorySeparatorChar + string.Join(Path.AltDirectorySeparatorChar, workingDirectory.Select(x => x.Name));
+
+            var containerCommand = $"cd {currentDirectory} && ls -ldL * .* --full-time --color=never --group-directories-first";
 
             var content = await ReadConsoleOutput($"docker run --rm --interactive --tty {volumeId} sh -c \"{containerCommand}\"");
 
@@ -44,11 +46,23 @@ namespace Diver.Infrastructure.Repositories
 
                     return Regex.Replace(item, pattern, template);
                 })
-                .Select(x => JsonConvert.DeserializeObject<FileStructureItem>(x, JsonSerializerSettings))
+                .Select(x =>
+                {
+                    try
+                    {
+                        return JsonConvert.DeserializeObject<FileStructureItem>(x, JsonSerializerSettings);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                })
+                .Where(x => x is not null)
+                .Where(x => x.FileName != "." && x.FileName != "..")
                 .ToList();
         }
 
-        public async Task<IReadOnlyCollection<WorkingDirectory>> GetWorkingDirectory(string volumeId)
+        async Task<IReadOnlyCollection<WorkingDirectory>> IFileStructureRepository.GetWorkingDirectory(string volumeId)
         {
             var containerCommand = "pwd";
 

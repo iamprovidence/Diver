@@ -16,6 +16,7 @@ namespace Diver
             base.OnStartup(e);
 
             var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainModule>();
             builder.RegisterModule<ApplicationModule>();
             builder.RegisterModule<InfrastructureModule>();
             builder.RegisterModule<FrameworkModule>();
