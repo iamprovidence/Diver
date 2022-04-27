@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -43,6 +45,23 @@ namespace Diver.Infrastructure.Repositories
                     return Regex.Replace(item, pattern, template);
                 })
                 .Select(x => JsonConvert.DeserializeObject<FileStructureItem>(x, JsonSerializerSettings))
+                .ToList();
+        }
+
+        public async Task<IReadOnlyCollection<WorkingDirectory>> GetWorkingDirectory(string volumeId)
+        {
+            var containerCommand = "pwd";
+
+            var content = await ReadConsoleOutput($"docker run --rm --interactive --tty {volumeId} sh -c \"{containerCommand}\"");
+
+            var fullPath = content.SingleOrDefault() ?? string.Empty;
+
+            return fullPath
+                .Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => new WorkingDirectory
+                {
+                    Name = x,
+                })
                 .ToList();
         }
     }

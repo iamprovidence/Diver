@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Diver.Application.FileStructure.Dtos;
@@ -18,42 +17,22 @@ namespace Diver.Application.FileStructure
 
         public async Task<IReadOnlyCollection<BreadcrumbItemDto>> GetBreadcrumbs(string imageId)
         {
-            var breadcrumbs = new BreadcrumbItemDto[]
-            {
-                new BreadcrumbItemDto()
+            var workingDirectory = await _fileStructureRepository.GetWorkingDirectory(imageId);
+            var breadcrumbs = workingDirectory
+                .Select((item, index) => new BreadcrumbItemDto
                 {
-                    Title = "a",
-                },
-                new BreadcrumbItemDto()
-                {
-                    Title = "b",
-                },
-                new BreadcrumbItemDto()
-                {
-                    Title = "c",
-                },
-                new BreadcrumbItemDto()
-                {
-                    Title = "d",
-                },
-                new BreadcrumbItemDto()
-                {
-                    Title = "e",
-                },
-            };
-
-            var random = new Random();
-            var amount = random.Next(1, breadcrumbs.Length + 1);
-            breadcrumbs = breadcrumbs.Take(amount).ToArray();
-
-            var displayedBreadcrumbs = breadcrumbs
+                    Title = item.Name,
+                })
                 .TakeLast(3)
-                .ToArray();
+                .ToList();
 
-            displayedBreadcrumbs[0].IsHidden = breadcrumbs.Length >= 3;
-            displayedBreadcrumbs[^1].IsLast = true;
+            if (breadcrumbs.Any())
+            {
+                breadcrumbs[0].IsHidden = workingDirectory.Count >= 3;
+                breadcrumbs[^1].IsLast = true;
+            }
 
-            return displayedBreadcrumbs;
+            return breadcrumbs;
         }
 
         public async Task<IReadOnlyCollection<FileListItemDto>> GetFileStructure(string imageId)
