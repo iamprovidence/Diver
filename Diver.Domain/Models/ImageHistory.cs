@@ -13,5 +13,7 @@ namespace Diver.Domain.Models
         [Description("Command that was used to create Volume")]
         public string CreatedBy { get; init; }
         public string Size { get; init; }
+
+        public bool IsAvailable => Id != "<missing>";
     }
 }

@@ -28,7 +28,6 @@ namespace Diver.Domain.Services
             {
                 _workingDirectories.Pop();
             }
-            _workingDirectories.Pop();
         }
 
         public IReadOnlyCollection<WorkingDirectory> GetCurrentWorkingDirectory()

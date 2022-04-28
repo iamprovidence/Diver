@@ -249,12 +249,18 @@
                                         </Border>
 
                                         <ControlTemplate.Triggers>
+
+                                            <DataTrigger Binding="{Binding IsAvailable}" Value="False">
+                                                <Setter TargetName="_ItemBorder" Property="Background" Value="#E9EBEE"/>
+                                            </DataTrigger>
+
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter TargetName="_ImageHistoryIndex" Property="Foreground" Value="White"/>
                                                 <Setter TargetName="_ImageHistoryIndex" Property="Background" Value="#37AAF7"/>
                                                 <Setter TargetName="_ImageHistoryIndex" Property="FontWeight" Value="SemiBold"/>
                                                 <Setter TargetName="_ItemBorder" Property="Background" Value="White"/>
                                             </Trigger>
+
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>

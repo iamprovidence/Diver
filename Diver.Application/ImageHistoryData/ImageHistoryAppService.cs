@@ -26,6 +26,7 @@ namespace Diver.Application.ImageHistoryData
                     VolumeId = x.Id,
                     Command = x.CreatedBy,
                     Size = x.Size,
+                    IsAvailable = x.IsAvailable,
                 })
                 .ToList();
         }

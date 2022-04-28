@@ -14,7 +14,7 @@ namespace Diver.Infrastructure.Repositories
     {
         async Task<IReadOnlyCollection<FileStructureItem>> IFileStructureRepository.GetImageFiles(string volumeId, IEnumerable<WorkingDirectory> workingDirectory)
         {
-            var currentDirectory = Path.AltDirectorySeparatorChar + string.Join(Path.AltDirectorySeparatorChar, workingDirectory.Select(x => x.Name));
+            var currentDirectory = Path.AltDirectorySeparatorChar + string.Join(Path.AltDirectorySeparatorChar, workingDirectory.Skip(1).Select(x => x.Name));
 
             var containerCommand = $"cd {currentDirectory} && ls -ldL * .* --full-time --color=never --group-directories-first";
 
@@ -69,6 +69,7 @@ namespace Diver.Infrastructure.Repositories
             var content = await ReadConsoleOutput($"docker run --rm --interactive --tty {volumeId} sh -c \"{containerCommand}\"");
 
             var fullPath = content.SingleOrDefault() ?? string.Empty;
+            fullPath = $"root{Path.AltDirectorySeparatorChar}{fullPath}";
 
             return fullPath
                 .Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries)

@@ -6,5 +6,6 @@
         public string VolumeId { get; init; }
         public string Command { get; init; }
         public string Size { get; init; }
+        public bool IsAvailable { get; init; }
     }
 }
