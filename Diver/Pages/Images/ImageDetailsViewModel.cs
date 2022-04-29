@@ -12,7 +12,6 @@ using Diver.Utilities;
 
 namespace Diver.Pages.Images
 {
-
     public class ImageDetailsViewModelParams : IViewModelParams
     {
         public string ImageId { get; init; }

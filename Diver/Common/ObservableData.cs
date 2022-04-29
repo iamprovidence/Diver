@@ -6,6 +6,14 @@ namespace Diver.Common
     {
         private T _data;
 
+        public ObservableData()
+            : this(default) { }
+
+        public ObservableData(T data)
+        {
+            _data = data;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public T Data

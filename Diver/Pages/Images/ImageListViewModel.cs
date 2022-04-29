@@ -45,10 +45,18 @@ namespace Diver.Pages.Images
 
         public ICommand BuildImageCommand => new RelayCommand(data =>
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.ShowDialog();
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Docker Files|Dockerfile",
+            };
 
-            NavigationManager.Navigate<Home.Home>();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                NavigationManager.Navigate<BuildImage>(new BuildImageViewModelParams
+                {
+                    DockerfilePath = openFileDialog.FileName,
+                });
+            }
         });
     }
 }

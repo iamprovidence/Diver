@@ -1,6 +1,8 @@
-﻿namespace Diver.Common
+﻿using System;
+
+namespace Diver.Common
 {
-    public abstract class ViewModelBase
+    public abstract class ViewModelBase : IDisposable
     {
         protected NavigationManager NavigationManager { get; }
 
@@ -10,6 +12,11 @@
         }
 
         public virtual void Activated()
+        {
+            return;
+        }
+
+        public virtual void Dispose()
         {
             return;
         }

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Diver.Domain.Interfaces;
 
 namespace Diver.Infrastructure
 {
@@ -10,6 +11,11 @@ namespace Diver.Infrastructure
                 .RegisterAssemblyTypes(ThisAssembly)
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<DockerFileBuilder>()
+                .As<IDockerFileBuilder>()
                 .InstancePerLifetimeScope();
         }
     }

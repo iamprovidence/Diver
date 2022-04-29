@@ -13,6 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diver.Utilities", "Diver.Ut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diver.Application", "Diver.Application\Diver.Application.csproj", "{1A0BFF7E-F7DB-42BF-9890-154CD3D42F9C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{347DA266-78C6-4B60-9F55-A988879EA3DA}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\Dockerfile = Assets\Dockerfile
+		Assets\README.md = Assets\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

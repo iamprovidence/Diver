@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Diver.Domain.Interfaces;
@@ -20,24 +19,5 @@ namespace Diver.Infrastructure.Repositories
                 .Reverse()
                 .ToList();
         }
-
-        public Task BuildImageFromDockerfile(string imageRepository)
-        {
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    Arguments = $"/c DOCKER_BUILDKIT = 0 && docker build -t {imageRepository}",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                },
-            };
-
-            throw new NotImplementedException();
-        }
-
     }
 }
