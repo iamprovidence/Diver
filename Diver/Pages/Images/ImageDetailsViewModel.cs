@@ -15,6 +15,7 @@ namespace Diver.Pages.Images
     public class ImageDetailsViewModelParams : IViewModelParams
     {
         public string ImageId { get; init; }
+        public string ImageRepository { get; init; }
     }
 
     public class ImageDetailsViewModel : ViewModelBase<ImageDetailsViewModelParams>
@@ -44,7 +45,7 @@ namespace Diver.Pages.Images
 
         public override async void Activated()
         {
-            Image.Data = await _imageAppService.GetImage(Params.ImageId);
+            Image.Data = await _imageAppService.GetImage(Params.ImageId, Params.ImageRepository);
 
             var imageHistory = await _imageHistoryAppService.GetHistory(Params.ImageId);
             ImageHistory.ClearAdd(imageHistory);

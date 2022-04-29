@@ -54,12 +54,13 @@ namespace Diver.Application.Images
                 .ToList();
         }
 
-        public async Task<ImageDto> GetImage(string imageId)
+        public async Task<ImageDto> GetImage(string imageId, string repository)
         {
             var images = await _imageRepository.GetAll();
 
             return images
                 .Where(i => i.Id == imageId)
+                .Where(i => i.Repository == repository)
                 .Select(i => new ImageDto
                 {
                     ImageId = i.Id,

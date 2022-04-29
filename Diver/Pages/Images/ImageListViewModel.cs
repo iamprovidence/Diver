@@ -40,6 +40,7 @@ namespace Diver.Pages.Images
             NavigationManager.Navigate<ImageDetails>(new ImageDetailsViewModelParams
             {
                 ImageId = image.ImageId,
+                ImageRepository = image.Repository,
             });
         });
 
